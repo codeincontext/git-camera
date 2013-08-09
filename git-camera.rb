@@ -50,6 +50,10 @@ def delay(delay_amount)
   @c.delay = delay_amount
 end
 
+def frames_per_second(fps)
+  @c.fps = fps
+end
+
 load 'git-cam.conf'
 
 @c.start_capture
