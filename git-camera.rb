@@ -1,4 +1,7 @@
-require 'grit'
+#!/usr/bin/env ruby
+
+$LOAD_PATH << './lib'
+require 'capture'
 
 pointless_ascii_camera = <<-EOS
               ____
@@ -12,50 +15,37 @@ EOS
 # borrowed without much asking from http://www.chris.com/ascii/index.php?art=objects%2Fcameras
 puts pointless_ascii_camera
 
+@c = GitCamera::Capture.instance
 
 def before_all(command=nil, &block)
-  @before_all_command = command
-  @before_all_block = block
+  @c.before_all_command = command
+  @c.before_all_block = block
 end
 def before_each(command=nil, &block)
-  @before_each_command = command
-  @before_each_block = block
+  @c.before_each_command = command
+  @c.before_each_block = block
 end
 def after_all(command=nil, &block)
-  @after_all_command = command
-  @after_all_block = block
-  end
+  @c.after_all_command = command
+  @c.after_all_block = block
+end
 def after_each(command=nil, &block)
-  @after_each_command = command
-  @after_each_block = block
+  @c.after_each_command = command
+  @c.after_each_block = block
 end
 
-
-page_url = "http://tomodell.dev"
-repo_dir = "/Users/skattyadz/Dropbox/code/tomodell"
-
-repo = Grit::Repo.new(repo_dir)
-# puts repo.commits
-
-@before_all_block && @before_all_block.call
-
-repo.commits.each do |commit|
-  @before_each_block && @before_each_block.call
-
-  repo.git.native :checkout, {:'--work-tree'=> repo_dir}, commit.sha
-  destination = "#{commit.sha}.png"
-  @setup_block && @setup_block.call
-#   get unique destination path
-  
-  `phantomjs phantom_task.js #{page_url} #{destination}`
-
-  @after_each_block && @after_each_block.call
+def page_url(url)
+  @c.page_url = url
 end
 
-@after_all_block && @after_all_block.call
+def repo_path(path)
+  @c.repo_path = path
+end
 
+def delay(delay_amount)
+  @c.delay = delay_amount
+end
 
-# compile images into video
-# delete images
-repo.git.native :checkout, {}, 'master'
+load 'git-cam.conf'
 
+@c.start_capture
