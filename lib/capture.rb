@@ -8,7 +8,7 @@ module GitCamera
     attr_accessor :before_all_command, :before_all_block, :before_each_command, :before_each_block
     attr_accessor :after_all_command, :after_all_block, :after_each_command, :after_each_block
 
-    attr_accessor :page_url, :repo_path, :delay
+    attr_accessor :page_url, :repo_path, :resolution, :delay
 
     def start_capture
 
@@ -24,8 +24,8 @@ module GitCamera
         destination = "#{commit.sha}.png"
         before_each_block.call if before_each_block
       #   get unique destination path
-        
-        `phantomjs phantom_task.js #{page_url} #{destination} #{delay}`
+
+        `phantomjs phantom_task.js #{page_url} #{destination} #{resolution} #{delay}`
         puts '- '+commit.message
 
         after_each_block.call if after_each_block

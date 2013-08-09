@@ -42,6 +42,10 @@ def repo_path(path)
   @c.repo_path = path
 end
 
+def resolution(res)
+  @c.resolution = res
+end
+
 def delay(delay_amount)
   @c.delay = delay_amount
 end
