@@ -12,7 +12,7 @@ module GitCamera
 
     def start_capture
 
-      repo = Grit::Repo.new(repo_path)
+      repo = Grit::Repo.new(repo_path || Dir.getwd)
 
       before_all_block.call if before_all_block
       puts 'Snapping:'

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << './lib'
-require 'capture'
+require File.expand_path('../lib/capture', __FILE__)
 
 pointless_ascii_camera = <<-EOS
               ____
