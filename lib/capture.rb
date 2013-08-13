@@ -20,7 +20,7 @@ module GitCamera
       repo.commits('master', 99999).reverse.each_with_index do |commit, i|
         before_each_block.call if before_each_block
 
-        repo.git.native :checkout, {:'--work-tree'=> repo_path}, commit.sha
+        repo.git.native :checkout, {:raise=>true}, commit.sha
         destination = "frame_#{"%05d" % i}.png"
         before_each_block.call if before_each_block
       #   get unique destination path
