@@ -17,7 +17,7 @@ module GitCamera
       before_all_block.call if before_all_block
       puts 'Snapping:'
 
-      repo.commits.reverse.each_with_index do |commit, i|
+      repo.commits('master', 99999).reverse.each_with_index do |commit, i|
         before_each_block.call if before_each_block
 
         repo.git.native :checkout, {:'--work-tree'=> repo_path}, commit.sha
