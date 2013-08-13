@@ -37,8 +37,6 @@ module GitCamera
 
       after_all_block.call if after_all_block
 
-      # compile images into video
-      # delete images
       repo.git.native :checkout, {}, 'master'
     end
 
