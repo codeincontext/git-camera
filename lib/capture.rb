@@ -25,7 +25,7 @@ module GitCamera
         before_each_block.call if before_each_block
       #   get unique destination path
 
-        `phantomjs phantom_task.js #{page_url} #{destination} #{resolution} #{delay}`
+        take_screenshot(destination)
         puts '- '+commit.message
 
         after_each_block.call if after_each_block
@@ -43,6 +43,21 @@ module GitCamera
     end
 
   private
+
+    def take_screenshot(destination)
+      phantom_task_path = File.expand_path(File.dirname(__FILE__))
+
+      phantom_command = [
+        'phantomjs', 
+        "#{phantom_task_path}/../phantom_task.js",
+        page_url, 
+        destination,
+        resolution,
+        delay
+      ].join(' ')
+
+      system phantom_command
+    end
 
     def compile_to_video
       `ffmpeg -f image2 -i frame_%05d.png -r #{fps} output.mp4`
