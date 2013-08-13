@@ -60,7 +60,7 @@ module GitCamera
     end
 
     def compile_to_video
-      `ffmpeg -f image2 -i frame_%05d.png -r #{fps} output.mp4`
+      `ffmpeg -f image2 -r #{fps} -i frame_%05d.png -y output.mp4`
     end
 
     def delete_images
